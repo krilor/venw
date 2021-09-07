@@ -146,7 +146,6 @@ init() {
   run "mkdir -p $VENW_ROOT/versions"
 }
 
-#
 # new virtual environment
 # new <venv> [version]
 # if version is not specified, system python (in path) will be used
@@ -185,6 +184,27 @@ new() {
 
 }
 
+# remove virtual environment
+# remove <venv>
+remove() {
+  if [[ $# -lt 1 ]]; then
+    err "Missing venv name."
+    usage
+    exit 1
+  fi
+
+  VENV=$1
+
+  if ! venv_exists $VENV; then
+    err "No such venv as '$VENV'. Run 'venw list' to see all environments."
+    return 1
+  fi
+
+  out "Removing a virtual environment is just about removing folder it resides in."
+  run "rm -rf $VENW_ROOT/venvs/$VENV"
+
+}
+
 #
 # Autocomplete
 #
@@ -206,9 +226,9 @@ autocomplete() {
 
   case $COMP_PREVIOUS in
     venw)
-      compgen -W "activate deactivate install list new" $COMP_PREFIX
+      compgen -W "activate deactivate install list new remove" $COMP_PREFIX
       ;;
-    activate)
+    activate|remove)
       compgen -W "$(ls $VENW_ROOT/venvs)" $COMP_PREFIX
       ;;
   esac
@@ -264,6 +284,9 @@ case $COMMAND in
     ;;
   new)
     new "${@:2}"
+    ;;
+  remove)
+    remove "${@:2}"
     ;;
   *)
     >&2 echo "Unknown command: $COMMAND"
