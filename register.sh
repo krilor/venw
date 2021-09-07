@@ -13,6 +13,14 @@ venw() {
 
   COMMAND=$1
 
+  # deactivate
+  if [[ $COMMAND == "deactivate" ]]; then
+    if [[ $VIRTUAL_ENV != "" ]]; then
+      deactivate
+    fi
+    return 0
+  fi
+
   # pass along to the script if it is not an activate command
   if [[ $COMMAND != "activate" ]]; then
     bash $VENW_ROOT/scripts/venw.sh "$@"

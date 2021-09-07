@@ -3,11 +3,15 @@ set -eu
 # venw
 usage() {
   echo """Usage: venw command [options]
-  =====
-  install <version>
-  new <venv> [version]
-  activate <venv>
-  =====
+
+================================================================
+activate <venv>      | Source the virtualenvs activate script
+deactivate           | Deactivate the current virtual env
+list                 | List venvs
+init                 | Init venw by creating some directories
+install <version>    | Get and compile python version from source
+new <venv> [version] | Create a new virtualenv
+=================================================================
 """
 }
 
