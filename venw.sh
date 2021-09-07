@@ -186,6 +186,40 @@ new() {
 }
 
 #
+# Autocomplete
+#
+autocomplete() {
+  # Autocomplete script is invoked (by bash autocomplete) with
+  # venw.sh command prefix previous
+  # Example: venw.sh venw ac venw
+
+  COMP_COMMAND=$1
+  COMP_PREFIX=$2
+  COMP_PREVIOUS=$3
+
+  # Also, example from env:
+  # COMP_KEY=9
+  # COMP_LINE=venw
+  # COMP_POINT=5
+  # COMP_TYPE=63
+  # See https://linux.die.net/man/1/bash
+
+  case $COMP_PREVIOUS in
+    venw)
+      compgen -W "activate deactivate install list new" $COMP_PREFIX
+      ;;
+    activate)
+      compgen -W "$(ls $VENW_ROOT/venvs)" $COMP_PREFIX
+      ;;
+  esac
+}
+
+if [[ ! -z ${COMP_TYPE+x} ]]; then
+  autocomplete "$@"
+  exit 0
+fi
+
+#
 ## Parse options
 #
 

@@ -45,3 +45,5 @@ venw() {
   return 0
 
 }
+
+complete -C "bash $VENW_ROOT/scripts/venw.sh" venw
